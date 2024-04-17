@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "~/server/db";
 
+export const dynamic = "force-dynamic";
 const mockUrls = [
   'https://utfs.io/f/38b0c3e7-533d-44e2-8748-86cd1e699135-dayvvh.webp',
   'https://utfs.io/f/5a6a549b-53f7-471d-a200-cd6194f81523-f687ea.jpg',
@@ -22,7 +23,7 @@ export default async function HomePage() {
         {posts.map((post) => (
           <div key={post.id}>{post.name}</div>
         ))}
-        
+
         {[...mockImages, ...mockImages, ...mockImages].map((image, index) => (
           <div key={`${image.id}-${index}`} className="w-48">
             <img src={image.url} />
