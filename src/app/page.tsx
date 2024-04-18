@@ -3,6 +3,7 @@ import { SignedOut, SignedIn, SignInButton} from "@clerk/nextjs";
 import { db } from "~/server/db";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 1;
 
 const images = await db.query.images.findMany({
   orderBy: (model, { desc }) => desc(model.id),
@@ -31,8 +32,8 @@ export default async function HomePage() {
       </SignedOut>
       <SignedIn>
         <div className="flex flex-wrap gap-4">
-        {[...images, ...images, ...images].map((image, index) => (
-          <div key={`${image.id}-${index}`} className="w-48 flex-col">
+        {images.map((image, index) => (
+          <div key={image.id} className="w-48 flex-col">
             <img src={image.url}/>
             <div className="text-yellow-200">{image.name.toUpperCase()}</div>
 

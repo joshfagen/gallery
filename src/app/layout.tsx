@@ -1,6 +1,10 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import "~/styles/globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import "@uploadthing/react/styles.css";
 import { TopNav } from "./_components/topNav";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { ourFileRouter } from "~/app/api/uploadthing/core";
+import { extractRouterConfig } from "uploadthing/server";
 
 import { Inter } from "next/font/google";
 
@@ -25,6 +29,16 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html>
+        <NextSSRPlugin
+            /**
+             * The `extractRouterConfig` will extract **only** the route configs
+             * from the router to prevent additional information from being
+             * leaked to the client. The data passed to the client is the same
+             * as if you were to fetch `/api/uploadthing` directly.
+             */
+            routerConfig={extractRouterConfig(ourFileRouter)}
+          />
+          {children}
         <body className={'font-sans ${inter.variable} flex flex-col gap-4'}>
           <TopNav />
           {children}
